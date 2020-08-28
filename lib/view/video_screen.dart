@@ -45,6 +45,7 @@ class _VideoScreenState extends State<VideoScreen> {
       alignment: Alignment.center,
       child: FijkView(
         player: player,
+        fit: FijkFit.cover,
       ),
     );
   }
