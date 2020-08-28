@@ -11,6 +11,11 @@ class HomeConfiguringState extends HomeState {
 }
 
 class HomeConfiguredState extends HomeState {
+  final int minute;
+  final int second;
+  final int millisecond;
+
+  HomeConfiguredState({this.minute, this.second, this.millisecond});
 }
 
 class HomePlayerState extends HomeState {

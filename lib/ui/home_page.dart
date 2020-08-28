@@ -142,7 +142,11 @@ class _HomePageState extends State<HomePage> {
               onPressed: () {
                 _bloc.add(HomeLoadingEvent());
               },
-              child: Text('讀取')
+              child: Text('讀取',
+                style: TextStyle(
+                  fontSize: 30,
+                )
+              )
             ),
           );
         } else if (state is HomeLoadingFileState) {
@@ -150,18 +154,20 @@ class _HomePageState extends State<HomePage> {
         } else if (state is HomeConfiguringState) {
           return ConfigureForm(bloc: _bloc);
         } else if (state is HomeConfiguredState) {
-          return Center(
-            child: Column(
-              children: [
-                Text('準備播放'),
-                RaisedButton(
-                  onPressed: () {
-                    _bloc.add(HomeConfiguringEvent());
-                  },
-                  child: Text('取消'),
-                )
-              ],
-            )
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('準備播放', style: TextStyle(fontSize: 36)),
+              Text('快轉至 ${state.minute}:${state.second}.${state.millisecond} 處'
+                , style: TextStyle(fontSize: 20)
+              ),
+              RaisedButton(
+                onPressed: () {
+                  _bloc.add(HomeConfiguringEvent());
+                },
+                child: Text('取消', style: TextStyle(fontSize: 20)),
+              )
+            ],
           );
         } else if (state is HomePlayerState) {
           int action = state.action;

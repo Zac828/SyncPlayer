@@ -60,7 +60,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _second = second;
     _millisecond = millisecond;
 
-    yield HomeConfiguredState();
+    yield HomeConfiguredState(minute: _minute, second: _second, millisecond: _millisecond);
   }
 
   Stream<HomeState> _mapPlayToState() async* {
