@@ -17,7 +17,7 @@ class HomePlayerState extends HomeState {
   // 1: play, 2: pause, 3: stop
   final int action;
   final String url;
-  final int msec;
+  final double msec;
 
   HomePlayerState({this.action, this.url, this.msec});
 }

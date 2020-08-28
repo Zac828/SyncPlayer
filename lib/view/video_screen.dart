@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class VideoScreen extends StatefulWidget {
   final String url;
-  final int msec;
+  final double msec;
 
   VideoScreen({@required this.url, this.msec});
 
@@ -34,7 +34,7 @@ class _VideoScreenState extends State<VideoScreen> {
 
     if (value.videoRenderStart && _isFirst) {
       _isFirst = false;
-      player.seekTo(widget.msec);
+      player.seekTo(widget.msec.toInt());
     }
   }
 

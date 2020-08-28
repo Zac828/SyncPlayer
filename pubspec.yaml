@@ -23,7 +23,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  path: ^1.7.0
   flutter_bloc: ^6.0.2
   fijkplayer: ^0.8.7
   file_picker: ^1.13.3

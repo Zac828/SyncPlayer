@@ -10,7 +10,7 @@ part 'home_state.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   String _url;
 
-  int _minute = 0, _second = 0;
+  int _minute = 0, _second = 0, _millisecond = 0;
 
   HomeBloc() : super(HomeInitialState());
 
@@ -25,7 +25,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     } else if (event is HomeConfiguringEvent) {
       yield* _mapConfiguringToState();
     } else if (event is HomeConfigDoneEvent) {
-      yield* _mapConfigDoneToState(event.minute, event.second);
+      yield* _mapConfigDoneToState(event.minute, event.second, event.millisecond);
     } else if (event is HomePlayEvent) {
       yield* _mapPlayToState();
     }
@@ -55,16 +55,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     yield HomeConfiguringState();
   }
 
-  Stream<HomeState> _mapConfigDoneToState(minute, second) async* {
+  Stream<HomeState> _mapConfigDoneToState(minute, second, millisecond) async* {
     _minute = minute;
     _second = second;
+    _millisecond = millisecond;
 
     yield HomeConfiguredState();
   }
 
   Stream<HomeState> _mapPlayToState() async* {
 
-    int _msec = _minute * 60 + _second;
+    double _msec = _minute * 60 + _second + (_millisecond / 10);
 
     yield HomePlayerState(action: 1, url: _url, msec: _msec * 1000);
   }

@@ -10,10 +10,16 @@ class ConfigureForm extends StatelessWidget {
   Widget build(BuildContext context) {
     int _minute = 0;
     int _second = 0;
+    int _millisecond = 0;
 
     List<String> doubleList = List<String>.generate(59, (int index) => '$index');
     List<DropdownMenuItem> menuItemList = doubleList
         .map((val) => DropdownMenuItem(value: val, child: Center(child: Text(val))))
+        .toList();
+
+    List<String> msecList = List<String>.generate(10, (int index) => '$index');
+    List<DropdownMenuItem> msecItemList = msecList
+        .map((val) => DropdownMenuItem(value: val, child: Center(child: Text( (int.parse(val) / 10).toString() ))))
         .toList();
 
     return Container(
@@ -43,10 +49,20 @@ class ConfigureForm extends StatelessWidget {
               },
               items: menuItemList,
             ),
+            DropdownButtonFormField(
+              decoration: InputDecoration(
+                labelText: '秒',
+                hintText: '0.1',
+              ),
+              onChanged: (value) {
+                _millisecond = int.parse(value);
+              },
+              items: msecItemList,
+            ),
             Spacer(),
             FlatButton(
               onPressed: () {
-                bloc.add(HomeConfigDoneEvent(minute: _minute, second: _second));
+                bloc.add(HomeConfigDoneEvent(minute: _minute, second: _second, millisecond: _millisecond));
               },
               child: Text('確定'),
             )
