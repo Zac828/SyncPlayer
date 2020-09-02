@@ -1,11 +1,14 @@
 import 'package:fijkplayer/fijkplayer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sync_video/home/home_bloc.dart';
 
 class VideoScreen extends StatefulWidget {
   final String url;
   final double msec;
+  final HomeBloc bloc;
 
-  VideoScreen({@required this.url, this.msec});
+  VideoScreen({@required this.url, this.msec, this.bloc});
 
   @override
   _VideoScreenState createState() => _VideoScreenState();
@@ -43,9 +46,23 @@ class _VideoScreenState extends State<VideoScreen> {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      child: FijkView(
-        player: player,
-        fit: FijkFit.cover,
+      child: BlocListener(
+        listener: (BuildContext context, state) {
+          if (state is HomePlayerState) {
+            if (state.action == 2) {
+              player.pause();
+            } else {
+              if (player.isPlayable()) {
+                player.start();
+              }
+            }
+          }
+        },
+        child: FijkView(
+          player: player,
+          fit: FijkFit.cover,
+        ),
+        cubit: widget.bloc,
       ),
     );
   }

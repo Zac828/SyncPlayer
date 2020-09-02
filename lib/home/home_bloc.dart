@@ -28,6 +28,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       yield* _mapConfigDoneToState(event.minute, event.second, event.millisecond);
     } else if (event is HomePlayEvent) {
       yield* _mapPlayToState();
+    } else if (event is HomePauseEvent) {
+      yield* _mapPauseToState();
     }
   }
 
@@ -42,10 +44,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     yield HomeLoadingFileState();
 
     _url = await FilePicker.getFilePath(type: FileType.video);
-    if (_url == null) yield HomeInitialState();
-
-    print('url: $_url');
-    yield HomeConfiguringState();
+    if (_url == null) {
+      yield HomeInitialState();
+    } else {
+      yield HomeConfiguringState();
+    }
   }
 
   Stream<HomeState> _mapConfiguringToState() async* {
@@ -68,5 +71,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     double _msec = _minute * 60 + _second + (_millisecond / 10);
 
     yield HomePlayerState(action: 1, url: _url, msec: _msec * 1000);
+  }
+
+  Stream<HomeState> _mapPauseToState() async* {
+    yield HomePlayerState(action: 2, url: _url, msec: -1.0);
   }
 }

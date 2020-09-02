@@ -28,6 +28,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    int _action = 0;
+
     return Scaffold(
       appBar: AppBar(
         leading: Padding(
@@ -59,7 +61,7 @@ class _HomePageState extends State<HomePage> {
         listeners: [
           BlocListener(
             listener: (BuildContext context, state) {
-              if (state is HomeConfiguredState) {
+              if (state is HomeConfiguredState || state is HomePlayerState) {
                 _floatingButtonManager.stateSubjectSink.add(1);
               } else {
                 _floatingButtonManager.stateSubjectSink.add(-1);
@@ -70,6 +72,9 @@ class _HomePageState extends State<HomePage> {
           BlocListener(
             listener: (BuildContext context, state) {
               if (state is HomeConfiguredState) {
+                _floatingButtonManager.stateSubjectSink.add(2);
+              } else if (state is HomePlayerState) {
+                _action = state.action;
                 _floatingButtonManager.stateSubjectSink.add(2);
               } else {
                 _floatingButtonManager.stateSubjectSink.add(-2);
@@ -83,13 +88,23 @@ class _HomePageState extends State<HomePage> {
             if (!snapshot.hasData) return Container();
 
             if (snapshot.data) {
-              return FloatingActionButton(
+              if (_action == 1) {
+                return FloatingActionButton(
+                  onPressed: () {
+                    _homeBlocFirst.add(HomePauseEvent());
+                    _homeBlocSecond.add(HomePauseEvent());
+                  },
+                  child: Icon(Icons.pause),
+                );
+              } else {
+                return FloatingActionButton(
                 onPressed: () {
                   _homeBlocFirst.add(HomePlayEvent());
                   _homeBlocSecond.add(HomePlayEvent());
-                },
-                child: Icon(Icons.play_arrow),
-              );
+                  },
+                  child: Icon(Icons.play_arrow),
+                );
+              }
             } else {
               return Container();
             }
@@ -170,16 +185,12 @@ class _HomePageState extends State<HomePage> {
             ],
           );
         } else if (state is HomePlayerState) {
-          int action = state.action;
           String _url = state.url;
-          if (action == 1) {
             return VideoScreen(
               url: _url,
               msec: state.msec,
+              bloc: _bloc
             );
-          } else {
-            return Text('Other action');
-          }
         } else {
           return Center(child: Text('Error'));
         }

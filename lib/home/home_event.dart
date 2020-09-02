@@ -18,3 +18,5 @@ class HomeConfigDoneEvent extends HomeEvent {
 }
 
 class HomePlayEvent extends HomeEvent {}
+
+class HomePauseEvent extends HomeEvent {}
