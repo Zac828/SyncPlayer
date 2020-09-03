@@ -177,6 +177,7 @@ class _HomePageState extends State<HomePage> {
               Text('快轉至 ${state.minute}:${state.second}.${state.millisecond} 處'
                 , style: TextStyle(fontSize: 20)
               ),
+              Text('速度: ${state.speed} 倍'),
               RaisedButton(
                 onPressed: () {
                   _bloc.add(HomeConfiguringEvent());
@@ -190,6 +191,7 @@ class _HomePageState extends State<HomePage> {
             return VideoScreen(
               url: _url,
               msec: state.msec,
+              speed: state.speed,
               bloc: _bloc
             );
         } else {

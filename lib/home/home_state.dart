@@ -14,8 +14,9 @@ class HomeConfiguredState extends HomeState {
   final int minute;
   final int second;
   final int millisecond;
+  final double speed;
 
-  HomeConfiguredState({this.minute, this.second, this.millisecond});
+  HomeConfiguredState({this.minute, this.second, this.millisecond, this.speed});
 }
 
 class HomePlayerState extends HomeState {
@@ -23,6 +24,7 @@ class HomePlayerState extends HomeState {
   final int action;
   final String url;
   final double msec;
+  final double speed;
 
-  HomePlayerState({this.action, this.url, this.msec});
+  HomePlayerState({this.action, this.url, this.msec, this.speed});
 }

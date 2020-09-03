@@ -11,6 +11,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   String _url;
 
   int _minute = 0, _second = 0, _millisecond = 0;
+  double _speed = 1.0;
 
   HomeBloc() : super(HomeInitialState());
 
@@ -25,7 +26,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     } else if (event is HomeConfiguringEvent) {
       yield* _mapConfiguringToState();
     } else if (event is HomeConfigDoneEvent) {
-      yield* _mapConfigDoneToState(event.minute, event.second, event.millisecond);
+      yield* _mapConfigDoneToState(event.minute, event.second, event.millisecond, event.speed);
     } else if (event is HomePlayEvent) {
       yield* _mapPlayToState();
     } else if (event is HomePauseEvent) {
@@ -37,6 +38,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _minute = 0;
     _second = 0;
     _millisecond = 0;
+    _speed = 1.0;
 
     yield HomeInitialState();
   }
@@ -56,26 +58,28 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _minute = 0;
     _second = 0;
     _millisecond = 0;
+    _speed = 1.0;
 
     yield HomeConfiguringState();
   }
 
-  Stream<HomeState> _mapConfigDoneToState(minute, second, millisecond) async* {
+  Stream<HomeState> _mapConfigDoneToState(minute, second, millisecond, speed) async* {
     _minute = minute;
     _second = second;
     _millisecond = millisecond;
+    _speed = speed;
 
-    yield HomeConfiguredState(minute: _minute, second: _second, millisecond: _millisecond);
+    yield HomeConfiguredState(minute: _minute, second: _second, millisecond: _millisecond, speed:  _speed);
   }
 
   Stream<HomeState> _mapPlayToState() async* {
 
     double _msec = _minute * 60 + _second + (_millisecond / 10);
 
-    yield HomePlayerState(action: 1, url: _url, msec: _msec * 1000);
+    yield HomePlayerState(action: 1, url: _url, msec: _msec * 1000, speed: _speed);
   }
 
   Stream<HomeState> _mapPauseToState() async* {
-    yield HomePlayerState(action: 2, url: _url, msec: -1.0);
+    yield HomePlayerState(action: 2, url: _url, msec: -1.0, speed: _speed);
   }
 }

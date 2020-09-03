@@ -13,8 +13,9 @@ class HomeConfigDoneEvent extends HomeEvent {
   final int minute;
   final int second;
   final int millisecond;
+  final double speed;
 
-  HomeConfigDoneEvent({this.minute, this.second, this.millisecond});
+  HomeConfigDoneEvent({this.minute, this.second, this.millisecond, this.speed});
 }
 
 class HomePlayEvent extends HomeEvent {}

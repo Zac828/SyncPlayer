@@ -6,9 +6,10 @@ import 'package:sync_video/home/home_bloc.dart';
 class VideoScreen extends StatefulWidget {
   final String url;
   final double msec;
+  final double speed;
   final HomeBloc bloc;
 
-  VideoScreen({@required this.url, this.msec, this.bloc});
+  VideoScreen({@required this.url, this.msec, this.speed, this.bloc});
 
   @override
   _VideoScreenState createState() => _VideoScreenState();
@@ -29,6 +30,8 @@ class _VideoScreenState extends State<VideoScreen> {
   void autoStart() async {
     await player.setOption(FijkOption.hostCategory, "request-screen-on", 1);
     await player.setOption(FijkOption.hostCategory, "request-audio-focus", 1);
+    await player.setOption(FijkOption.hostCategory, "request-audio-focus", 1);
+    await player.setSpeed(widget.speed);
     await player.setDataSource(widget.url, autoPlay: true);
   }
 
