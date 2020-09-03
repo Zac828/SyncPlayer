@@ -77,6 +77,7 @@ class _HomePageState extends State<HomePage> {
                 _action = state.action;
                 _floatingButtonManager.stateSubjectSink.add(2);
               } else {
+                _action = 0;
                 _floatingButtonManager.stateSubjectSink.add(-2);
               }
             },

@@ -36,6 +36,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   Stream<HomeState> _mapInitToState() async* {
     _minute = 0;
     _second = 0;
+    _millisecond = 0;
 
     yield HomeInitialState();
   }
@@ -54,6 +55,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   Stream<HomeState> _mapConfiguringToState() async* {
     _minute = 0;
     _second = 0;
+    _millisecond = 0;
 
     yield HomeConfiguringState();
   }
